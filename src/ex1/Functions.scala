@@ -32,4 +32,8 @@ object Functions {
 
   // Връща числото от триъгълника на Паскал отговарящо на съответния ред/колона
   def pascal(c: Int, r: Int): Int = ???
+  
+  def main(args:Array[String]):Unit={
+   
+  }
 }
