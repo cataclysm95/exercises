@@ -1,0 +1,78 @@
+object upr{
+
+sealed trait Shape
+
+case class Triangle(a: Int, b: Int, c: Int, h: Int) extends Shape
+
+case class Rectangle(a: Int, b: Int) extends Shape
+
+case class Trapezoid(a: Int, b: Int, h: Int) extends Shape
+
+case class Cube() extends Shape
+
+class Architect {
+
+def maximum(xs: List[Int]): Option[Int] = {
+  
+def iteration(xs: List[Int], max: Int): Option[Int] = {
+  if (xs.isEmpty)
+    Some(max)
+  else
+    iteration(xs.tail, 
+        if (xs.head > max) xs.head 
+          else max)
+}
+
+  if (xs.isEmpty) {
+    None
+  } else {
+    iteration(xs, xs.head)
+  }
+}
+
+def triangleType(t: Triangle): String = {
+  
+  if (t.a == t.b && t.b == t.c) {
+    "equilateral"
+  }
+
+  if (t.a == t.b || t.b == t.c || t.c == t.a) {
+    if (Math.pow(t.a, 2) + Math.pow(t.b, 2) == Math.pow(t.c, 2)) {
+      "isosceles rectangular"
+    }
+    "isosceles"
+  }
+  "random"
+}
+
+def shapeArea(s: Shape): Double = s match {
+    
+      case s: Triangle => triangleType(s) match {
+      case "rectangular" => maximum(List(s.a, s.b, s.c)).get match {
+      case s.a => s.b * s.c / 2
+      case s.b => s.a * s.c / 2
+      case s.c => s.a * s.b / 2
+    }
+    case _ => maximum(List(s.a, s.b, s.c)).get * s.h / 2
+  }
+  case Rectangle(a, b) => a * b
+  case Trapezoid(a, b, h) => (a + b) * h / 2
+  case Cube() => -1
+}
+
+
+def findRectangulars(shapes: List[Shape]): Int = {
+  
+  def iter(shapes: List[Shape], n: Int): Int = {
+    if (shapes.isEmpty)
+      n
+    else {
+      iter(shapes.tail, if (triangleType(shapes.head.asInstanceOf[Triangle]).contains("rectangular")) n + 1 else n)
+    }
+  }
+  iter(shapes, 0)
+}
+
+}
+
+}
